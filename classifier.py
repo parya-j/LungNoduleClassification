@@ -70,7 +70,7 @@ def Classifier(input_shape,learn_rate=1e-3):
 
 
     layer3 = Flatten()(pool2)
-    layer3 = Dense(units=100, activation='relu'  )(layer3)
+    layer3 = Dense(units=1, activation='relu'  )(layer3)
     layer3 = Dropout(0.3)(layer3)
 
     layer4 = Dense(1)(layer3)
@@ -110,10 +110,12 @@ print(model.summary())
 # In[28]:
 
 
-model.fit([X_train], [y_train], batch_size=4 , epochs=1, shuffle=True)
-# model.save('../models/lidc_seg_unet_b4ep2048.h5')
+model.fit([X_train], [y_train], batch_size=4 , validation_split=0.2, epochs=512, shuffle=True)
+model.save('../models/lidc_classification_cnn_b4ep512.h5')
 
-
+score = model.evaluate([X_test], [y_test], verbose=2)
+print('Test loss:', score[0])
+print('Test accuracy:', score[1])
 # In[ ]:
 
 
